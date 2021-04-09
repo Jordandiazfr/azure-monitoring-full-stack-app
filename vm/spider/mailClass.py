@@ -39,20 +39,22 @@ class Mail:
         for part in mail.walk():
             if part.get_content_maintype() != 'multipart' and part.get('Content-Disposition') is not None:
                 # Get the name of the file and call the method to see if it exist
-                if not self.does_file_exist(part.get_filename()):
-                    open(outputdir + '/' + part.get_filename(), 'wb').write(part.get_payload(decode=True))
+                f_name = part.get_filename()
+                if not self.does_file_exist(f_name):
+                    open(outputdir + '/' + f_name, 'wb').write(part.get_payload(decode=True))
+                    print(f"New file {f_name} downloaded ")
                 else:
-                    print("File already exist, nothing changed")       
+                    print(f"File {f_name} already exist, nothing changed")       
     # download attachments from all emails with a specified subject line
     # as touched upon above, a search query is executed with a subject filter,
     # a list of msg objects are returned in msgs, and then looped through to 
     # obtain the emailid variable, which is then passed through to the above 
     # download_report function
             
-    def subjectQuery(self, subject):
+    def subjectQuery(self, subject:str):
         m = self.connect(self.server, self.user, self.password)
         m.select("Inbox")
-        typ, msgs = m.search(None, '(SUBJECT "' + self.subject + '")')
+        typ, msgs = m.search(None, '(SUBJECT "' + subject + '")')
         msgs = msgs[0].split()
         for emailid in msgs:
             self.download_report(m, emailid, self.outputdir)
