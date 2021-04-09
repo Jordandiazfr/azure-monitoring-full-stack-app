@@ -9,3 +9,4 @@ app.get("/", (req,res) => {
 app.listen(PORT, (req,res) => {
     console.log(`Server up and running in port: ${PORT}`)
 })
+
