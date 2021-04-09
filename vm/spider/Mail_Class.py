@@ -30,6 +30,11 @@ class Mail:
         else:
             return False
     
+    def create_media_folder(self):
+        # Create Media folder if it not exists, and create a file in folder Sample to test the upload and download.       
+        if not os.path.exists(self.outputdir):
+                os.makedirs(self.outputdir)
+
     def download_report(self,m, emailid, outputdir):
         resp, data = m.fetch(emailid, "(BODY.PEEK[])")
         email_body = data[0][1]
@@ -39,12 +44,13 @@ class Mail:
         for part in mail.walk():
             if part.get_content_maintype() != 'multipart' and part.get('Content-Disposition') is not None:
                 # Get the name of the file and call the method to see if it exist
+                self.create_media_folder()
                 f_name = part.get_filename()
                 if not self.does_file_exist(f_name):
                     open(outputdir + '/' + f_name, 'wb').write(part.get_payload(decode=True))
                     print(f"New file {f_name} downloaded ")
                 else:
-                    print(f"File {f_name} already exist, nothing changed")       
+                    print(f"File {f_name} already exist, nothing changed")    
     # download attachments from all emails with a specified subject line
     # as touched upon above, a search query is executed with a subject filter,
     # a list of msg objects are returned in msgs, and then looped through to 
