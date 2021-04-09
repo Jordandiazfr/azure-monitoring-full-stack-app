@@ -1,11 +1,14 @@
-from mailClass import Mail
+from Mail_Class import Mail
+from Blob_Class import Blob
 
-def main():
-    print("Downloading new report")
-    m = Mail()
-    m.subjectQuery("Azure")
+# Instances 
+email = Mail()
+blob = Blob()
+
+
+# Methods 
+email.subjectQuery("Azure")
+blob.upload_blob()
 
 
 
-if __name__ == "__main__": 
-    main()

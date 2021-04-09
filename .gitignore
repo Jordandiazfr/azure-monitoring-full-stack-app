@@ -1,0 +1,5 @@
+vm/spider/__pycache__/
+.env
+__pycache__/
+media/**
+media/
