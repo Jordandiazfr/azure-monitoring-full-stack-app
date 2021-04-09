@@ -20,16 +20,26 @@ class Mail:
         m.select()
         return m
     
-    def does_file_exist(self, file: str):
+    def does_file_exist(self, file: str) -> bool:
         f = []
         for (dirpath, dirnames, filenames) in os.walk(self.outputdir):
             f.extend(filenames)
             break
         if file in f:
+            print("File already exist in media folder")
             return True
         else:
             return False
     
+    def file_is_excel(self, filename: str) -> bool:
+        ext = filename.split(".")
+        extension = ext[1]
+        if extension ==  "xlsx" or extension == "csv":
+            return True
+        else:
+            print(filename + " is not an excel!")
+            return False
+        
     def create_media_folder(self):
         # Create Media folder if it not exists, and create a file in folder Sample to test the upload and download.       
         if not os.path.exists(self.outputdir):
@@ -46,11 +56,12 @@ class Mail:
                 # Get the name of the file and call the method to see if it exist
                 self.create_media_folder()
                 f_name = part.get_filename()
-                if not self.does_file_exist(f_name):
+                
+                if not self.does_file_exist(f_name) and self.file_is_excel(f_name):
                     open(outputdir + '/' + f_name, 'wb').write(part.get_payload(decode=True))
                     print(f"New file {f_name} downloaded ")
                 else:
-                    print(f"File {f_name} already exist, nothing changed")    
+                    print(f"File {f_name} was not downloaded, nothing changed")    
     # download attachments from all emails with a specified subject line
     # as touched upon above, a search query is executed with a subject filter,
     # a list of msg objects are returned in msgs, and then looped through to 
