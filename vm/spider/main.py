@@ -8,7 +8,7 @@ blob = Blob()
 
 # Methods 
 email.subjectQuery("Azure")
-blob.upload_blob()
+#blob.upload_blob()
 
 
 
