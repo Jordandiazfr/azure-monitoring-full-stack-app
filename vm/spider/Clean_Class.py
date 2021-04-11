@@ -41,10 +41,7 @@ class Cleaner():
         df = pd.read_csv(file_path)  
         print(df.head())       
 
-if __name__ == "__main__":
-    c = Cleaner()
-    name = "testfilejojo"
-    c.convert_to_csv("testfilejojo" + ".xlsx")
+
     #c.read_csv(name  + ".csv")
     
     
