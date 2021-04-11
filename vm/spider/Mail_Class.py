@@ -2,6 +2,8 @@ import imaplib
 import email
 import os
 from dotenv import load_dotenv
+from Logger_func import my_logger
+logger = my_logger("MAIL instance")
 
 class Mail:
     def __init__(self):
@@ -43,7 +45,9 @@ class Mail:
     def create_media_folder(self):
         # Create Media folder if it not exists, and create a file in folder Sample to test the upload and download.       
         if not os.path.exists(self.outputdir):
+                logger.info("Media folder doesn't exist: Creating a new one")
                 os.makedirs(self.outputdir)
+                logger.info("Media folder created")
 
     def download_report(self,m, emailid, outputdir):
         resp, data = m.fetch(emailid, "(BODY.PEEK[])")
