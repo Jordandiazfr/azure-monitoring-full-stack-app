@@ -2,13 +2,14 @@ require('dotenv').config()
 
 const pg = require('pg');
 
+
 const config = {
     host: 'spiderpostgres.postgres.database.azure.com',
     // Do not hard code your username and password.
     // Consider using Node environment variables.
     user: 'adminadmin@spiderpostgres',     
     password: process.env.DB_PASSWORD,
-    database: 'postgres',
+    database: 'monitoring',
     port: 5432,
     ssl: true
 };
