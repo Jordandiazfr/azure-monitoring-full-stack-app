@@ -14,6 +14,7 @@ class Mail:
         self.password = os.getenv('EMAIL_PASS')
         self.server = 'imap.gmail.com'
         self.subject = 'Azure'
+        self.file_name = None
     
     # connects to email client through IMAP
     def connect(self, server, user, password):
@@ -64,6 +65,7 @@ class Mail:
                 if not self.does_file_exist(f_name) and self.file_is_excel(f_name):
                     open(outputdir + '/' + f_name, 'wb').write(part.get_payload(decode=True))
                     print(f"New file {f_name} downloaded ")
+                    self.file_name = f_name
                 else:
                     print(f"File {f_name} was not downloaded, nothing changed")    
     # download attachments from all emails with a specified subject line
