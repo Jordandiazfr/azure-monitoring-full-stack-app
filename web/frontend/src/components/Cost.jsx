@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
+import { Checkbox } from '@material-ui/core';
 
 export default function Cost() {
     const [data, setData] = useState([]);
@@ -20,8 +21,15 @@ export default function Cost() {
       <div>
       <table> 
       <thead>
+      <tr>
+      <Checkbox
+  value="checkedA"
+  inputProps={{ 'aria-label': 'Checkbox A' }}
+/>
+
+      </tr>
           <tr>
-              <th>Subscription Name</th>
+              <th>Subscription Name</th><checkbox> f</checkbox>
               <th>Date</th>
               <th>Service name</th>
               <th>Service Resource</th>
