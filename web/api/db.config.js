@@ -4,12 +4,10 @@ const pg = require('pg');
 
 
 const config = {
-    host: 'spiderpostgres.postgres.database.azure.com',
-    // Do not hard code your username and password.
-    // Consider using Node environment variables.
-    user: 'adminadmin@spiderpostgres',     
+    host: process.env.PSQL_HOST,
+    user: process.env.PSQL_USER,
     password: process.env.DB_PASSWORD,
-    database: 'monitoring',
+    database: process.env.PSQL_DATABASE,
     port: 5432,
     ssl: true
 };
@@ -42,4 +40,4 @@ function queryDatabase() {
         });
 }
 
-// psql --host=spiderpostgres.postgres.database.azure.com --port=5432 --username=adminadmin@spiderpostgres --dbname=postgres 
+

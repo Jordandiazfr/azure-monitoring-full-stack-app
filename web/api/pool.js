@@ -5,12 +5,12 @@ const Pool = require('pg').Pool
 
 
 const pool = new Pool({
-    host: 'spiderpostgres.postgres.database.azure.com',
+    host: process.env.PSQL_HOST,
     // Do not hard code your username and password.
     // Consider using Node environment variables.
-    user: 'adminadmin@spiderpostgres',
+    user: process.env.PSQL_USER,
     password: process.env.DB_PASSWORD,
-    database: 'monitoring',
+    database: process.env.PSQL_DATABASE,
     port: 5432,
     ssl: true
 })
@@ -39,6 +39,7 @@ const getServiceById = (request, response) => {
 
 const createService = (request, response) => {
     const {
+        subscriptionname,
         date,
         servicename,
         serviceresource,
@@ -46,7 +47,7 @@ const createService = (request, response) => {
         cost
     } = request.body
 
-    pool.query(`INSERT INTO resource (date, servicename,serviceresource, quantity, cost) VALUES ($1,$2,$3,$4,$5);`, [date, servicename, serviceresource, quantity, cost], (error, results) => {
+    pool.query(`INSERT INTO resource (subscriptionname,date, servicename,serviceresource, quantity, cost) VALUES ($1,$2,$3,$4,$5,$6);`, [subscriptionname,date, servicename, serviceresource, quantity, cost], (error, results) => {
         if (error) {
             throw error
         }
@@ -90,16 +91,3 @@ module.exports = {
     updateService,
     deleteService
 }
-
-// CREATE TABLE resource (
-//     ID SERIAL PRIMARY KEY,
-//     date VARCHAR(30),
-//     ServiceName VARCHAR(30),
-//     ServiceResource VARCHAR(60),
-//     quantity INT,
-//     cost INT
-//   );
-
-
-
-// INSERT INTO resource (date, ServiceName,ServiceResource, quantity, cost) VALUES ('01/01/2021', 'SERVICE NAME 1', 'Service Resource 1',32,3098), ('01/01/2021', 'SERVICE NAME 2', 'Service Resource 2',32223322,12322);
