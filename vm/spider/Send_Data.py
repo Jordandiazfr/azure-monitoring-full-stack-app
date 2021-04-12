@@ -2,6 +2,8 @@ import os
 import psycopg2
 from psycopg2 import Error
 from dotenv import load_dotenv
+import io
+import pandas as pd
 
 load_dotenv(dotenv_path="./.env")
 
@@ -30,17 +32,32 @@ class Send_Data:
 
     def add_data(self):
         try:
-            with open('******.csv', 'r') as f:
-                conn = self.connect()
-                cursor = conn.cursor()
-                cursor.copy_from()
-                f = open('file.csv', 'r')
-                cursor.copy_from(f, 'resource', sep=',', columns=(
-                    'subscriptionname,date, servicename,serviceresource, quantity, cost'))
-                f.close()
+            conn=self.connect()
+            df = pd.read_csv("./testfilecsv.csv")
+            df.head(0).to_sql('resource', conn, if_exists='replace',index=False) #drops old table and creates new empty table
+            cur = conn.cursor()
+            output = io.StringIO()
+            df.to_csv(output, sep='\t', header=False, index=False)
+            output.seek(0)
+            contents = output.getvalue()
+            cur.copy_from(output, 'resource', null="") # null values become ''
+            conn.commit()
+            # conn = self.connect()
+            # cursor = conn.cursor()
+            # my_file = open("./testfilecsv.csv")
+            # sql = "COPY resource(subscriptionname,date, servicename,serviceresource, quantity, cost) FROM testfilecsv DELIMITER ',' CSV header;"
+            # cursor.copy_expert(sql, my_file)
+
+            # f = open('testfilecsv.csv', 'r')
+            # with open('testfilecsv.csv', 'r') as f:
+                # cursor.copy_from(f, 'resource', columns=(
+                #     'subscriptionname,date, servicename,serviceresource, quantity, cost'))
+                # cursor.copy_expert("COPY test TO RESOURCE", "testfilecsv.csv")
+            # conn.commit()
+            # f.close()
         except (Exception, Error) as error:
             print("Error trying adding data", error)
 
 
 data = Send_Data()
-data.connect()
+data.add_data()
