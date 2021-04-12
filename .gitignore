@@ -3,3 +3,4 @@ vm/spider/__pycache__/
 __pycache__/
 media/**
 media/
+**.log

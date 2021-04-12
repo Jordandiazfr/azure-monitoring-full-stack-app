@@ -4,7 +4,7 @@ from Clean_Class import Cleaner
 from Logger_func import my_logger
 import datetime
 now = datetime.datetime.now()
-logger = my_logger("main function")
+logger = my_logger("MAIN * Function")
 
 def main(): 
     logger.debug(f"SPIDER MICROSERVICE ACTIVATED - { now.strftime('%Y-%m-%d %H:%M:%S')}")
