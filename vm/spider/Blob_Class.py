@@ -1,5 +1,4 @@
 import os
-import sys
 from azure.storage.blob import BlockBlobService, PublicAccess
 from dotenv import load_dotenv
 
