@@ -32,7 +32,7 @@ def main():
     
     logger.debug("Blob method to upload files from the media folder to blob storage")
     blob.upload_blob()
-
+    
 if __name__ == "__main__":
     main()
 

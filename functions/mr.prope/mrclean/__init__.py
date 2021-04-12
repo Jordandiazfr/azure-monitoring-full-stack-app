@@ -22,11 +22,11 @@ def connect():
         print("Error while connecting to PostgreSQL", error)
 
 
-def select(table):
+def execute():
     conn = connect()
     cursor = conn.cursor()
     # Fetch all rows from table
-    cursor.execute(f"SELECT * FROM {table}")
+    cursor.execute(f"COPY resource FROM reports/{myblob.name} WITH (FORMAT csv);")
     rows = cursor.fetchall()
     # Print all rows
     cursor.close()
@@ -39,17 +39,17 @@ def main(myblob: func.InputStream):
     data = myblob.read()
     #with open("jojo.csv", mode="w") as output:
     #   output.write(str(data))
-
-    with open('jojo.csv', 'w', encoding='iso-8859-1', newline='\n') as csvfile:
-        a = b'\x8b'
-        b = a.decode("iso-8859-1")
-        w = csv.writer(data,  dialect=)
-        w.writerow([b])
+    execute():
+    # with open('jojo.csv', 'w', encoding='iso-8859-1', newline='\n') as csvfile:
+    #     a = b'\x8b'
+    #     b = a.decode("iso-8859-1")
+    #     w = csv.writer(data,  dialect=)
+    #     w.writerow([b])
             
-    with open('jojo.csv', 'r', newline='\n', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            print(row)
+    # with open('jojo.csv', 'r', newline='\n', encoding='utf-8') as f:
+    #     reader = csv.reader(f)
+    #     for row in reader:
+    #         print(row)
 
         
     #print(pd.read_csv(myblob.read()))
