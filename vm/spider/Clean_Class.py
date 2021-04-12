@@ -1,6 +1,8 @@
 import pandas as pd
 import csv
 import os 
+from Logger_func import my_logger
+logger = my_logger("CLEAN instance")
 
 class Cleaner():
     def __init__(self):
@@ -12,7 +14,7 @@ class Cleaner():
     def convert_to_csv(self, src):
         # Get the path of the current excel file 
         file_path = os.path.join(self.media_dir,src)
-        print(file_path)
+        logger.debug("File path " + file_path)
         
         # Get the name of the current excel file without extension
         file_name = src.split(".")
@@ -26,15 +28,17 @@ class Cleaner():
         # Create a new .csv file with the name that we caste
         with open(new_full_path ,mode="w") as f:
             f.write("")
+            logger.info("New file created " + cast_in_csv)
             
         # Load the excel 
         df = pd.read_excel(file_path, usecols=[0,2,4,7,8,9])
         df['Cost'] = df['Cost'].apply(lambda x: float(x.replace(',', '.')))
         df['Quantity'] = df['Quantity'].apply(lambda x: float(x.replace(',', '.')))
-        print(df)
+        logger.info(f"{src} file was succesfully loaded and cleaned")
         
         # Rewrite the empty .csv file with the loaded dataframe 
         df.to_csv(new_full_path, index = False)
+        logger.info(f"{cast_in_csv} exported into the media folder successfully")
             
     def read_csv(self, src):
         file_path = os.path.join(self.media_dir,src)

@@ -21,8 +21,14 @@ def main():
     logger.debug("Email method to check new .xlsx reports:")
     email.subjectQuery("Azure")
     
-    name = email.file_name
-    clean.convert_to_csv(name)
+    # Get the list of new files (Their names)
+    new_files = email.file_name
+    
+    if new_files != []:
+        for n in new_files:
+            logger.info("New file detected " + n)
+            clean.convert_to_csv(n)
+            
     
     logger.debug("Blob method to upload files from the media folder to blob storage")
     blob.upload_blob()

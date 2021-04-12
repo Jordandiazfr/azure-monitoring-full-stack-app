@@ -1,4 +1,5 @@
 vm/spider/__pycache__/
+vm/spider/logs/
 .env
 __pycache__/
 media/**

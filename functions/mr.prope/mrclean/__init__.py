@@ -43,7 +43,7 @@ def main(myblob: func.InputStream):
     with open('jojo.csv', 'w', encoding='iso-8859-1', newline='\n') as csvfile:
         a = b'\x8b'
         b = a.decode("iso-8859-1")
-        w = csv.writer(data)
+        w = csv.writer(data,  dialect=)
         w.writerow([b])
             
     with open('jojo.csv', 'r', newline='\n', encoding='utf-8') as f:

@@ -3,7 +3,9 @@ const bodyParser = require('body-parser')
 const app = express()
 const PORT = 4000
 const db = require('./pool')
+const cors = require('cors')
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({

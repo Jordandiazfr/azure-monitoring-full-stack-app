@@ -14,7 +14,7 @@ class Mail:
         self.password = os.getenv('EMAIL_PASS')
         self.server = 'imap.gmail.com'
         self.subject = 'Azure'
-        self.file_name = None
+        self.file_name = []
         self.new_file = 0
     
     # connects to email client through IMAP
@@ -68,7 +68,7 @@ class Mail:
                 if not self.does_file_exist(f_name) and self.file_is_excel(f_name):
                     open(outputdir + '/' + f_name, 'wb').write(part.get_payload(decode=True))
                     logger.info( str(f_name) + " was downloaded")
-                    self.file_name = f_name
+                    self.file_name.append(f_name)
                     self.new_file += 1 
                 else:
                     logger.info( str(f_name) + " was not downloaded, nothing changed") 
