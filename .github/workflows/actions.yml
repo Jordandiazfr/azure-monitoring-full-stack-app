@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'api-spider'
           slot-name: 'production'
-          publish-profile: \${{ secrets.AzureAppService_PublishProfile_1234 }}
+          publish-profile: \${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_91E3EE3B54534A1781B820CC8B384921 }}
           package: .
