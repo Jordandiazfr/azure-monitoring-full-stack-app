@@ -12,28 +12,30 @@ const columns = [
     { field: 'cost', headerName: 'Cost', type: 'number', width: 150 },
     {
       field: 'fullName',
-      headerName: 'Full name',
+      headerName: 'Total cost',
       description: 'This column has a value getter and is not sortable.',
       sortable: false,
       width: 160,
       valueGetter: (params) =>
-        `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
+        `${params.getValue('quantity') * params.getValue('cost') || ''}`,
     },
   ];
 
 
 
 
-export default function Dgrid() {
+export default function Dgrid(props) {
     const [data, setData] = useState([]);
-   
+    const [myloading, setLoading] = useState(true);
+    
     useEffect(() => {
       const fetchData = async () => {
         const result = await axios(
-          'http://localhost:4000/servicename',
+          'http://api-spider.azurewebsites.net/servicename',
         );
    
         setData(result.data);
+        setLoading(false)
       };
    
       fetchData();
@@ -41,8 +43,8 @@ export default function Dgrid() {
    
     return (
         <>
-        <div style={{ height: 800, width: '100%' }}>
-        <DataGrid rows={data} columns={columns} pageSize={10} checkboxSelection />
+        <div className="datagrid" style={{ display: props.vision}}>
+        <DataGrid rows={data} columns={columns} pageSize={10} checkboxSelection loading={myloading} />
       </div>
       </>
     );
