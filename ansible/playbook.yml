@@ -1,0 +1,42 @@
+# Install system apt packages
+- hosts: azure-web-ser
+  become: yes
+  become_method: sudo
+  tasks:
+    # Update
+    - name: update cache
+      apt: name=software-properties-common state=present update_cache=yes cache_valid_time=43200
+    # Install 
+    - name: install packages
+      apt: 
+        name: ['python3.8', 'postgresql', 'postgresql-client', 'libpq-dev', 'libpython3-stdlib', 'python3-pip'] 
+        state: latest
+
+      # Install Psycopg2 to make PSQL work
+    - name: Install Psycopg2 
+      become: yes
+      become_method: sudo
+      pip:
+        name: psycopg2
+        executable: pip3
+
+        # Database PSQL
+    - name: Create user psql
+      become: yes
+      become_user: postgres
+      postgresql_user:
+        name: "{{PSQL_USER}}"
+        password: "{{PSQL_PASS}}"
+        role_attr_flags: "CREATEDB,SUPERUSER,REPLICATION,BYPASSRLS,LOGIN"
+
+# Server is running
+    - name: Ensure the PostgreSQL service is running
+      service: name=postgresql state=started enabled=yes
+
+# Create DB
+    - name: Create database
+      become: yes
+      become_user: postgres
+      postgresql_db:
+          name: "jojotest"
+          owner: "jojo"
