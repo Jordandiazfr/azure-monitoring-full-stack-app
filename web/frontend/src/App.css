@@ -37,8 +37,8 @@ body {
 .datagrid {
   text-align: center;
   display: flex;
-  height: 800px;
-  width: 80%;
+  height: 700px;
+  width: 100%;
 }
 
 .Container {

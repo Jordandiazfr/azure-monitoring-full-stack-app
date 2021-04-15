@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 
 
 const columns = [
@@ -31,7 +31,7 @@ export default function Dgrid(props) {
     useEffect(() => {
       const fetchData = async () => {
         const result = await axios(
-          'http://api-spider.azurewebsites.net/servicename',
+          'https://api-spider.azurewebsites.net/servicename',
         );
    
         setData(result.data);
@@ -44,7 +44,9 @@ export default function Dgrid(props) {
     return (
         <>
         <div className="datagrid" style={{ display: props.vision}}>
-        <DataGrid rows={data} columns={columns} pageSize={10} checkboxSelection loading={myloading} />
+        <DataGrid rows={data} columns={columns} pageSize={10} checkboxSelection loading={myloading}   components={{
+    Toolbar: GridToolbar,
+  }} columnBuffer={5} />
       </div>
       </>
     );

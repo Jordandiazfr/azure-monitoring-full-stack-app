@@ -44,6 +44,7 @@ export default function Bartchat() {
       []
     )
    
+   console.log(newData)
     return (
       <div
         style={{
@@ -52,6 +53,7 @@ export default function Bartchat() {
         }}
       >
         <Chart data={data} axes={axes} />
+        
       </div>
     )
   }

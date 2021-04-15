@@ -1,16 +1,14 @@
 import './App.css';
-import Dgrid from "./components/Dgrid"
 import Home from "./components/Home"
 import logo  from "./assets/logo.png"
-import React, {useState} from "react"
+import React from "react"
 
 function App() {
   let jojo = "0"
-  const [click, setClick] = useState(false)
   return (
     <div className="App"> 
 
-    <img src={logo} className="head-logo"></img>
+    <img src={logo} className="head-logo" alt="logo"></img>
     <Home jojo={jojo} />
 
     
