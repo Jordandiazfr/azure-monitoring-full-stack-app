@@ -1,9 +1,0 @@
-vm/spider/__pycache__/
-vm/spider/logs/
-.env
-__pycache__/
-media/**
-media/
-**.log
-node_modules
-vm/ansible/SpiderClean_key.pem
