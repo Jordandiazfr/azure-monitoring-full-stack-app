@@ -6,3 +6,4 @@ media/**
 media/
 **.log
 node_modules
+vm/ansible/SpiderClean_key.pem

@@ -56,6 +56,7 @@ const createService = (request, response) => {
 }
 const updateService = (request, response) => {
     const {
+        subscriptionname,
         date,
         servicename,
         serviceresource,
@@ -64,7 +65,7 @@ const updateService = (request, response) => {
     } = request.body
 
     pool.query(
-        'UPDATE resource SET date = $1, servicename = $2, serviceresource=$3, quantity = $4, cost =$5 WHERE id = $6', [date, servicename, serviceresource, quantity, cost],
+        'UPDATE resource SET  subscriptionname = $1, date = $2, servicename=$3, serviceresource = $4, quantity =$5, cost=$6 WHERE id = $6', [subscriptionname, date, servicename, serviceresource, quantity, cost],
         (error, results) => {
             if (error) {
                 throw error
