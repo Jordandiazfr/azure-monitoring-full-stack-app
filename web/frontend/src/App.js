@@ -1,7 +1,7 @@
 import './App.css';
 import Home from "./components/Home"
 import logo  from "./assets/logo.png"
-import React, from "react"
+import React from "react"
 
 function App() {
   let jojo = "0"
