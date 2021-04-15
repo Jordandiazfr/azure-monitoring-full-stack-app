@@ -2,7 +2,6 @@ import os
 import psycopg2
 from psycopg2 import Error
 from dotenv import load_dotenv
-import io
 import pandas as pd
 
 load_dotenv(dotenv_path="./.env")
@@ -14,50 +13,62 @@ class Send_Data:
         self.db_name = os.getenv("PSQL_DATABASE")
         self.user = os.getenv("PSQL_USER")
         self.password = os.getenv("PSQL_PASS")
+        self.data_list = self.add_data()
+        self.conn = self.connect()
 
     def connect(self):
-        # Construct connection string
         try:
-            # Connect to an existing database
-            connection = psycopg2.connect(user=self.user, password=self.password,
-                                          host=self.host, port="5432", database=self.db_name, sslmode='require')
-            # Create a cursor to perform database operations
-            #cursor = connection.cursor()
-
-            # Print PostgreSQL details
+            conn = psycopg2.connect(
+                user=self.user,
+                password=self.password,
+                host=self.host, port="5432",
+                database=self.db_name,
+                sslmode='require'
+            )
             print("Connected to the database")
-            return connection
+            return conn
         except (Exception, Error) as error:
             print("Error while connecting to PostgreSQL", error)
 
     def add_data(self):
         try:
-            conn=self.connect()
-            df = pd.read_csv("./testfilecsv.csv")
-            df.head(0).to_sql('resource', conn, if_exists='replace',index=False) #drops old table and creates new empty table
-            cur = conn.cursor()
-            output = io.StringIO()
-            df.to_csv(output, sep='\t', header=False, index=False)
-            output.seek(0)
-            contents = output.getvalue()
-            cur.copy_from(output, 'resource', null="") # null values become ''
-            conn.commit()
-            # conn = self.connect()
-            # cursor = conn.cursor()
-            # my_file = open("./testfilecsv.csv")
-            # sql = "COPY resource(subscriptionname,date, servicename,serviceresource, quantity, cost) FROM testfilecsv DELIMITER ',' CSV header;"
-            # cursor.copy_expert(sql, my_file)
+            SubscriptionName_list = []
+            Date_list = []
+            ServiceName_list = []
+            ServiceResource_list = []
+            Quantity_list = []
+            Cost_list = []
 
-            # f = open('testfilecsv.csv', 'r')
-            # with open('testfilecsv.csv', 'r') as f:
-                # cursor.copy_from(f, 'resource', columns=(
-                #     'subscriptionname,date, servicename,serviceresource, quantity, cost'))
-                # cursor.copy_expert("COPY test TO RESOURCE", "testfilecsv.csv")
-            # conn.commit()
-            # f.close()
+            df = pd.read_csv("./testfilecsv.csv")
+            for i in range(len(df.index)):
+                SubscriptionName_list.append(df['SubscriptionName'].values[i])
+                Date_list.append(df['Date'].values[i])
+                ServiceName_list.append(df['ServiceName'].values[i])
+                ServiceResource_list.append(df['ServiceResource'].values[i])
+                Quantity_list.append(df['Quantity'].values[i])
+                Cost_list.append(df['Cost'].values[i])
+
+        
+            All_data = list(set(zip(SubscriptionName_list, Date_list, ServiceName_list,
+                                    ServiceResource_list, Quantity_list, Cost_list)))
+            # print("alldata",All_data)
+            return All_data
+
         except (Exception, Error) as error:
-            print("Error trying adding data", error)
+            print("add_data methode error is:", error)
+
+    def insertIntoTable(self):
+        cursor = self.conn.cursor()
+        insert = "INSERT INTO resource (SubscriptionName, Date, ServiceName, ServiceResource, Quantity, Cost) VALUES (%s, %s, %s, %s, %s, %s);"
+        # print(insert)
+        value = self.data_list
+        # print(value)
+        cursor.executemany(insert, value)
+        self.conn.commit()
+        cursor.close()
 
 
 data = Send_Data()
-data.add_data()
+data.insertIntoTable()
+print()
+
