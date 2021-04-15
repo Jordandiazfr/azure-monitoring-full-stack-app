@@ -31,7 +31,7 @@ export default function Dgrid(props) {
     useEffect(() => {
       const fetchData = async () => {
         const result = await axios(
-          'http://api-spider.azurewebsites.net/servicename',
+          'https://api-spider.azurewebsites.net/servicename',
         );
    
         setData(result.data);
