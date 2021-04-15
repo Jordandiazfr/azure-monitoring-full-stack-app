@@ -1,0 +1,10 @@
+[azure-web-ser]
+52.236.130.55
+
+# Local variables for Ansible playbooks
+[azure-web-ser:vars]
+ansible_ssh_user=spiderUser
+ansible_ssh_pipelining= true
+ansible_python_interpreter=/usr/bin/python3
+PSQL_USER=superspider
+PSQL_PASS=1234
